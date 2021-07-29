@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +15,13 @@ export class AppComponent {
     { field: 'price', sortable: true, filter: true }
 ];
 
-rowData = [
-    { make: 'Toyota', model: 'Celica', price: 35000 },
-    { make: 'Ford', model: 'Mondeo', price: 32000 },
-    { make: 'Porsche', model: 'Boxter', price: 72000 }
-];
+rowData: Observable<any[]> | undefined;
   title: any;
 
+constructor(private http: HttpClient) {
+}
+
+ngOnInit(): void {
+    this.rowData = this.http.get<any[]>('https://www.ag-grid.com/example-assets/small-row-data.json');
+}
 }
